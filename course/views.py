@@ -1,12 +1,13 @@
 from django.db.models.query import QuerySet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from course.models import Course
+from course.models import Course, Lesson
 from rest_framework.filters import SearchFilter
 from course.serializer import (
     CourseSerializer,
 )
 from django.db import models
+from django.views.generic.detail import DetailView
 
 
 class CourseListAPIView(ListAPIView):
@@ -28,3 +29,12 @@ class CourseListAPIView(ListAPIView):
                 buyers_count=models.Count("buy_user"),
             )
         )
+
+
+class LessonDetailView(DetailView):
+
+    model = Lesson
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
